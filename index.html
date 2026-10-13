@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreshTrack AI — Food Expiry & Waste Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">🌿</span><div><strong>FreshTrack</strong><small>AI FOOD MANAGER</small></div></div>
+    <nav>
+      <a class="active" href="#dashboard">▦ <span>Dashboard</span></a>
+      <a href="#inventory">▤ <span>Food inventory</span></a>
+      <a href="#assistant">✦ <span>AI assistant</span></a>
+      <a href="#waste">♻ <span>Waste analytics</span></a>
+    </nav>
+    <div class="sidebar-tip"><span>💡</span><strong>Small changes matter</strong><p>Use items that need attention first to help reduce avoidable food waste.</p></div>
+    <div class="sidebar-foot">College hackathon prototype</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">SMART FOOD MANAGEMENT</p><h1>Good morning 👋</h1><p class="muted">Know what you have. Use it before it goes to waste.</p></div>
+      <button class="btn primary" id="addTop">＋ Add food</button>
+    </header>
+
+    <section id="dashboard" class="stats">
+      <article class="stat-card"><div class="stat-label">Active food items <span>🥫</span></div><strong id="totalStat">0</strong><small>In your inventory</small></article>
+      <article class="stat-card warning-card"><div class="stat-label">Expiring soon <span>⏰</span></div><strong id="soonStat">0</strong><small>Within 3 days</small></article>
+      <article class="stat-card danger-card"><div class="stat-label">Past recorded date <span>⚠️</span></div><strong id="expiredStat">0</strong><small>Check the product label</small></article>
+      <article class="stat-card"><div class="stat-label">Recorded waste <span>♻️</span></div><strong id="wasteStat">0</strong><small>Items marked wasted</small></article>
+    </section>
+
+    <section class="grid-main">
+      <article class="panel" id="inventory">
+        <div class="panel-head"><div><p class="eyebrow">YOUR KITCHEN</p><h2>Food inventory</h2></div><button class="btn subtle" id="addInline">＋ Add item</button></div>
+        <div class="toolbar"><input id="search" type="search" placeholder="Search food items..." aria-label="Search food items"><select id="categoryFilter" aria-label="Filter category"><option value="All">All categories</option></select><select id="statusFilter" aria-label="Filter status"><option value="All">All statuses</option><option value="Fresh">Fresh</option><option value="Soon">Expiring soon</option><option value="Today">Date is today</option><option value="Past date">Past recorded date</option><option value="Consumed">Consumed</option><option value="Donated">Donated</option><option value="Wasted">Wasted</option></select></div>
+        <div id="foodList" class="food-list"></div>
+        <div id="emptyState" class="empty"><div>🧺</div><h3>No items found</h3><p>Add a food item or change your filters.</p></div>
+      </article>
+
+      <div class="right-column">
+        <article class="panel attention">
+          <p class="eyebrow">PRIORITY LIST</p><h2>Use these first</h2><p class="muted small">Based on the dates you entered.</p>
+          <div id="priorityList"></div>
+        </article>
+        <article class="panel" id="assistant">
+          <p class="eyebrow">AI-STYLE HELPER</p><h2>Use It Before You Lose It</h2>
+          <p class="muted small">Get recipe ideas from ingredients you already have.</p>
+          <label for="ingredients">Your ingredients</label>
+          <textarea id="ingredients" rows="3" placeholder="e.g. milk, bread, banana"></textarea>
+          <label for="diet">Food preference</label>
+          <select id="diet"><option>Any</option><option>Vegetarian</option><option>Vegan</option><option>Egg-friendly</option></select>
+          <button class="btn primary full" id="recipeBtn">✦ Suggest recipes</button>
+          <div id="recipeResult" class="recipe-result" aria-live="polite">Your suggestions will appear here.</div>
+          <p class="hint">Demo mode uses local rules. Connect an AI API through a secure backend for real AI-generated answers.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel waste-panel" id="waste">
+      <div><p class="eyebrow">WASTE AWARENESS</p><h2>Waste overview</h2><p class="muted small">A simple view of items you recorded as wasted.</p></div>
+      <div class="waste-visual"><div class="donut" id="donut"><span id="wastePercent">0%</span></div><div><strong id="wasteCaption">No waste recorded yet</strong><p class="muted small">This is an item-count summary, not a measurement of food weight.</p></div></div>
+      <button class="btn subtle" id="exportBtn">Export CSV</button>
+    </section>
+    <footer>FreshTrack AI · Student project prototype · Data saved in this browser</footer>
+  </main>
+
+  <dialog id="foodDialog">
+    <form id="foodForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">INVENTORY</p><h2>Add food item</h2></div><button type="button" class="close" id="closeDialog" aria-label="Close">×</button></div>
+      <label>Food name<input id="foodName" required maxlength="70" placeholder="e.g. Milk"></label>
+      <div class="two-col"><label>Category<select id="category"></select></label><label>Quantity<input id="quantity" type="number" min="0.01" step="any" required placeholder="e.g. 500"></label></div>
+      <label>Unit<select id="unit" required></select></label>
+      <div class="two-col"><label>Purchase date<input id="purchaseDate" type="date" required></label><label>Expiry / best-before date<input id="expiryDate" type="date" required></label></div>
+      <label>Storage location<select id="location"><option>Refrigerator</option><option>Freezer</option><option>Pantry / shelf</option><option>Other</option></select></label>
+      <p class="hint">Enter the date printed on the package. The app cannot determine food safety.</p>
+      <button class="btn primary full" type="submit">Save food item</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
